@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  discord:
+    secrets:
+     - stationeering_discord_token
+     - stationeering_aws_sqs_url
+     - stationeering_aws_access_key
+     - stationeering_aws_secret_key
+    image: stationeering-discord
+    restart: always
+
+secrets:
+  stationeering_discord_token:
+    external: true
+  stationeering_aws_sqs_url:
+    external: true
+  stationeering_aws_access_key:
+    external: true
+  stationeering_aws_secret_key:
+    external: true
