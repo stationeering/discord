@@ -55,6 +55,8 @@ public class GuildPersistence {
         Item guildItem = new Item();
         guildItem.withPrimaryKey("guild_id", guildState.getId());
 
+        guildItem.with("guild_name", guildState.getName());
+
         Stream.of(MessageType.values()).forEach((mt) -> {
             guildState.getDestination(mt).ifPresent((cid) -> guildItem.with(mt.getDynamoDbField(), cid));
         });

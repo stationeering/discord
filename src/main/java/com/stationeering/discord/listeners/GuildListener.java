@@ -23,15 +23,18 @@ public class GuildListener extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent readyEvent) {
         logger.info("Discord is ready, enumerating current guilds...");
-        readyEvent.getJDA().getGuilds().stream().map(ISnowflake::getIdLong).forEach(guildManager::start);
+        readyEvent.getJDA().getGuilds().stream().forEach((g) -> {
+            guildManager.start(g.getIdLong(), g.getName());
+        });
     }
 
     @Override
     public void onGuildJoin(GuildJoinEvent guildJoinEvent) {
         long guildId = guildJoinEvent.getGuild().getIdLong();
+        String guildName = guildJoinEvent.getGuild().getName();
 
-        logger.info("Bot joining new guild: " + guildId);
-        guildManager.start(guildId);
+        logger.info("Bot joining new guild: " + guildId + " / " + guildName);
+        guildManager.start(guildId, guildName);
     }
 
     @Override

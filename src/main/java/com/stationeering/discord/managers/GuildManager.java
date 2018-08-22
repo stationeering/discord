@@ -22,10 +22,11 @@ public class GuildManager {
         this.guildPersistence = guildPersistence;
     }
 
-    public void start(long guildId) {
+    public void start(long guildId, String name) {
         GuildState guildState = guildStorage.computeIfAbsent(guildId, GuildState::new);
         guildPersistence.load(guildState);
         guildState.setAvailable(true);
+        guildState.setName(name);
     }
 
     public void leave(long guildId) {
