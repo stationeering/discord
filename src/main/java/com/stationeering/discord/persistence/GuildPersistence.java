@@ -44,6 +44,10 @@ public class GuildPersistence {
             }
         });
 
+        if (guildItem.hasAttribute("guild_name")) {
+            guildState.setName(guildItem.getString("guild_name"));
+        }
+
         guildState.setGuildPersistence(this);
 
         logger.info("Loaded from DynamoDB: " + guildState.getId());
