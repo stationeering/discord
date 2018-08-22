@@ -134,7 +134,10 @@ public class VersionManager implements Runnable {
         eb.setColor(new Color(0, 0x90, 0xff));
         eb.setAuthor("Stationeers", "https://store.steampowered.com/app/544550/Stationeers/", "https://cdn.discordapp.com/icons/276525882049429515/4ec8c55aea32c65fc0188055de0d3b29.webp");
         eb.setTitle(version.get("version").getAsString());
-        eb.setDescription(parseVersionNotes(version.get("notes").getAsJsonArray()));
+
+        JsonElement notesElement = version.get("notes");
+        JsonArray notesArray = (notesElement == null ? null : notesElement.getAsJsonArray());
+        eb.setDescription(parseVersionNotes(notesArray);
 
         JsonElement betaTime = version.get("built_date");
 
