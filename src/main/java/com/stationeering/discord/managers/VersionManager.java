@@ -137,7 +137,7 @@ public class VersionManager implements Runnable {
 
         JsonElement notesElement = version.get("notes");
         JsonArray notesArray = (notesElement == null ? null : notesElement.getAsJsonArray());
-        eb.setDescription(parseVersionNotes(notesArray);
+        eb.setDescription(parseVersionNotes(notesArray));
 
         JsonElement betaTime = version.get("built_date");
 
