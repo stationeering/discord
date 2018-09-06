@@ -13,6 +13,7 @@ import com.google.gson.JsonSyntaxException;
 import com.stationeering.discord.state.MessageType;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,7 +155,14 @@ public class VersionManager implements Runnable {
 
         guildManager.getDestinations(MessageType.VERSIONS).forEach((cid) -> {
             logger.debug("Sending message to " + cid);
-            jda.getTextChannelById(cid).sendMessage(eb.build()).queue();
+
+            try {
+                jda.getTextChannelById(cid).sendMessage(eb.build()).queue();
+            } catch (InsufficientPermissionException e) {
+                logger.warn("Permission error sending to " + cid, e);
+            } catch (Exception e) {
+                logger.error("Failed to send message to " + cid, e);
+            }
         });
     }
 
