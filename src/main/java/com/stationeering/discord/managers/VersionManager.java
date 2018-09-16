@@ -95,7 +95,6 @@ public class VersionManager implements Runnable {
             case "ping":
                 break;
             case "create":
-            case "update":
                 handleCreateUpdate(jsonObject);
                 break;
             default:
