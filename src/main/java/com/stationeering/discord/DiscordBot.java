@@ -6,9 +6,9 @@ import com.stationeering.discord.listeners.GuildListener;
 import com.stationeering.discord.managers.GuildManager;
 import com.stationeering.discord.managers.VersionManager;
 import com.stationeering.discord.persistence.GuildPersistence;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,14 +36,14 @@ public class DiscordBot {
         final GuildManager guildManager = new GuildManager(new GuildPersistence());
         final JDA jda;
 
-        final JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT).setToken(DISCORD_TOKEN);
-        jdaBuilder.addEventListener(new FlavourListener());
-        jdaBuilder.addEventListener(new GuildListener(guildManager));
-        jdaBuilder.addEventListener(new CommandListener(guildManager));
+        final JDABuilder jdaBuilder = JDABuilder.createDefault (DISCORD_TOKEN);
+        jdaBuilder.addEventListeners(new FlavourListener());
+        jdaBuilder.addEventListeners(new GuildListener(guildManager));
+        jdaBuilder.addEventListeners(new CommandListener(guildManager));
 
         try {
-            jda = jdaBuilder.buildBlocking();
-        } catch (LoginException | InterruptedException e) {
+            jda = jdaBuilder.build();
+        } catch (LoginException e) {
             logger.error("Could not log into Discord!", e);
             return;
         }

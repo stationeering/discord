@@ -3,15 +3,15 @@ package com.stationeering.discord.listeners;
 import com.stationeering.discord.managers.GuildManager;
 import com.stationeering.discord.state.GuildState;
 import com.stationeering.discord.state.MessageType;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.ChannelType;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,14 +29,12 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.isFromType(ChannelType.TEXT)) {
-            if (event.getMessage().isMentioned(event.getJDA().getSelfUser(), Message.MentionType.USER)) {
-                User author = event.getAuthor();
-                Guild guild = event.getGuild();
-                Member member = guild.getMember(author);
-                boolean guildAdmin = member.getRoles().stream().anyMatch((r) -> r.hasPermission(Permission.ADMINISTRATOR)) || member.isOwner();
-                command(event.getGuild(), event.getChannel(), event.getMessage(), guildAdmin);
-            }
+        if (event.getMessage().isMentioned(event.getJDA().getSelfUser(), Message.MentionType.USER)) {
+            User author = event.getAuthor();
+            Guild guild = event.getGuild();
+            Member member = guild.getMember(author);
+            boolean guildAdmin = member.getRoles().stream().anyMatch((r) -> r.hasPermission(Permission.ADMINISTRATOR)) || member.isOwner();
+            command(event.getGuild(), event.getChannel(), event.getMessage(), guildAdmin);
         }
     }
 
